@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сёма — лучший дизайнер!</title>
+  <!-- Подключаем Telegram Web App API -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<script>
+  // Создаем и добавляем стили через JavaScript
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Общие стили */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #FF6B6B, #FFD93D);
+      overflow-x: hidden;
+      color: #333;
+      position: relative;
+      min-height: 100vh;
+    }
+    /* Шапка приложения */
+    .header {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .header h1 {
+      font-size: 3em;
+      margin: 0;
+      color: #D72638;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .header p {
+      font-size: 1.5em;
+      margin-top: 10px;
+      color: #1B9C85;
+    }
+    /* Навигация */
+    .nav {
+      display: flex;
+      justify-content: center;
+      background: #FFFFFF;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin: 20px;
+      border-radius: 10px;
+    }
+    .nav button {
+      flex: 1;
+      padding: 15px;
+      background: transparent;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: #D72638;
+    }
+    .nav button:hover {
+      background: #FFE66D;
+    }
+    /* Контейнер с контентом */
+    .content {
+      padding: 20px;
+      margin: 20px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Стили для галереи */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .gallery-item {
+      flex: 1 1 calc(33% - 10px);
+      height: 200px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    /* Футер */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+      color: #555;
+    }
+    /* Эффект «искр» */
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: sparkle 2s linear infinite;
+    }
+    @keyframes sparkle {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(2); opacity: 0.3; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Создаем корневой контейнер приложения
+  const app = document.createElement('div');
+  app.id = 'app';
+  document.body.appendChild(app);
+
+  // Функция создания шапки приложения
+  function createHeader() {
+    const header = document.createElement('div');
+    header.className = 'header';
+    header.innerHTML = '<h1>Сёма — лучший дизайнер!</h1><p>Его работы — это чистое искусство. Просто ВАУ!</p>';
+    return header;
+  }
+
+  // Функция создания навигационного меню
+  function createNav() {
+    const nav = document.createElement('div');
+    nav.className = 'nav';
+    const sections = {
+      home: 'Главная',
+      portfolio: 'Портфолио',
+      awards: 'Награды',
+      testimonials: 'Отзывы',
+      about: 'О Сёме'
+    };
+    for (const key in sections) {
+      const btn = document.createElement('button');
+      btn.textContent = sections[key];
+      btn.onclick = () => renderSection(key);
+      nav.appendChild(btn);
+    }
+    return nav;
+  }
+
+  // Функция создания основного контейнера для контента
+  function createContent() {
+    const content = document.createElement('div');
+    content.className = 'content';
+    return content;
+  }
+
+  // Функция для генерации галереи портфолио
+  function generateGallery() {
+    let gallery = '<div class="gallery">';
+    for (let i = 0; i < 6; i++) {
+      gallery += `<div class="gallery-item" style="background-image: url('https://picsum.photos/seed/${i+100}/300/200');"></div>`;
+    }
+    gallery += '</div>';
+    return gallery;
+  }
+
+  // Функция отображения раздела по выбору пользователя
+  function renderSection(section) {
+    let html = '';
+    switch(section) {
+      case 'home':
+        html = `<h2>Добро пожаловать!</h2>
+                <p>Сёма — самый лучший дизайнер на свете! Его креатив, стиль и мощные идеи вдохновляют всех.</p>`;
+        break;
+      case 'portfolio':
+        html = `<h2>Портфолио</h2>
+                <p>Ниже представлены работы, которые подтверждают, что Сёма — творческий гений:</p>
+                ${generateGallery()}`;
+        break;
+      case 'awards':
+        html = `<h2>Награды</h2>
+                <p>Сёма получил множество наград за свои яркие и эффектные проекты. Его достижения — это пример для подражания!</p>`;
+        break;
+      case 'testimonials':
+        html = `<h2>Отзывы</h2>
+                <p>Клиенты и коллеги подтверждают: дизайн Сёмы — это магия, творящая чудеса!</p>`;
+        break;
+      case 'about':
+        html = `<h2>О Сёме</h2>
+                <p>Сёма — дизайнер, который воплощает мечты в реальность. Его работы — это взрыв креатива, мощь эмоций и чистое вдохновение.</p>`;
+        break;
+      default:
+        html = `<h2>Добро пожаловать!</h2>`;
+    }
+    content.innerHTML = html;
+  }
+
+  // Создаем основной UI
+  const header = createHeader();
+  const nav = createNav();
+  const content = createContent();
+  app.appendChild(header);
+  app.appendChild(nav);
+  app.appendChild(content);
+
+  // Изначально отображаем главную страницу
+  renderSection('home');
+
+  // Функция создания эффекта "искр" по экрану
+  function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 2000);
+  }
+  // Запускаем генерацию "искр" каждые 300 мс
+  setInterval(createSparkle, 300);
+
+  // Добавляем футер с подписью
+  const footer = document.createElement('div');
+  footer.className = 'footer';
+  footer.innerHTML = '<p>&copy; 2025 Сёма — лучший дизайнер. Просто ВАУ!</p>';
+  app.appendChild(footer);
+
+  // Интеграция с Telegram Web App API: расширяем интерфейс, если доступно
+  if (window.Telegram && Telegram.WebApp) {
+    Telegram.WebApp.expand();
+  }
+</script>
+</body>
+</html>
