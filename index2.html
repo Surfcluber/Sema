@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Business Apps</title>
+    <title>Telegram Business Solutions</title>
     <style>
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
             --accent: #2ecc71;
-            --gray: #ecf0f1;
+            --gray: #f8f9fa;
             --duration: 0.3s;
+            --border-radius: 15px;
         }
 
         body {
             margin: 0;
-            font-family: 'Telegram Sans', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: var(--primary);
             overflow-x: hidden;
@@ -26,7 +27,7 @@
             padding: 20px;
             position: absolute;
             width: 100%;
-            transition: transform var(--duration) ease;
+            transition: transform var(--duration);
         }
 
         .page.active {
@@ -38,16 +39,17 @@
             bottom: 0;
             width: 100%;
             background: white;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            padding: 10px 0;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 8px 0;
         }
 
         .nav-item {
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             cursor: pointer;
+            position: relative;
             transition: color var(--duration);
         }
 
@@ -55,45 +57,58 @@
             color: var(--accent);
         }
 
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: var(--border-radius);
+            padding: 25px;
             margin: 15px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform var(--duration);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all var(--duration);
         }
 
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
         }
 
-        .shape {
+        .media-placeholder {
             background: var(--secondary);
-            border-radius: 15px;
-            height: 150px;
+            border-radius: var(--border-radius);
+            height: 200px;
             margin-bottom: 15px;
-            position: relative;
         }
 
-        .back-btn {
+        .btn {
             background: var(--accent);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 25px;
-            margin: 15px 0;
             cursor: pointer;
-            transition: background var(--duration);
+            transition: all var(--duration);
+            margin: 10px 0;
         }
 
-        .back-btn:hover {
+        .btn:hover {
             background: #27ae60;
+            transform: scale(1.05);
         }
 
         .feature-grid {
             display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         }
 
         .modal {
@@ -103,26 +118,65 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 400px;
-            animation: scaleUp var(--duration) ease;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            max-width: 500px;
+            animation: floatIn var(--duration) ease;
         }
 
-        @keyframes scaleUp {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes floatIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .accordion {
+            background: white;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .accordion-item {
+            padding: 18px 25px;
+            cursor: pointer;
+            transition: all var(--duration);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--duration) ease-out;
+        }
+
+        .accordion-item.active {
+            background: var(--gray);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: var(--accent);
+            transition: width var(--duration);
         }
 
         @media (max-width: 600px) {
             .nav-bar {
+                grid-template-columns: repeat(4, 1fr);
                 font-size: 0.9em;
             }
         }
@@ -131,52 +185,226 @@
 <body>
     <!-- Главная страница -->
     <div id="home" class="page active">
-        <div class="card" onclick="navigate('features')">
-            <div class="shape" style="border-radius: 50%; height: 200px;"></div>
-            <h2>Начать проект</h2>
-            <p>Создайте свое приложение за 3 простых шага</p>
+        <div class="card" onclick="navigate('about')">
+            <div class="media-placeholder"></div>
+            <h2>Удвойте продажи за 30 дней</h2>
+            <p>Мы создаем Telegram-приложения, которые превращают обычных пользователей в постоянных клиентов</p>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%;"></div>
+                <p>Клиентов остаются после первого месяца</p>
+            </div>
         </div>
-        
-        <div class="card" onclick="showModal()">
-            <div class="shape" style="height: 150px;"></div>
-            <h2>Портфолио</h2>
-            <p>Примеры наших работ</p>
+
+        <div class="card" onclick="navigate('portfolio')">
+            <div class="media-placeholder"></div>
+            <h2>Проверенные решения</h2>
+            <p>Более 50 реализованных проектов для e-commerce, стартапов и крупного бизнеса</p>
+            <button class="btn">Смотреть кейсы</button>
         </div>
     </div>
 
-    <!-- Страница функций -->
+    <!-- О компании -->
+    <div id="about" class="page">
+        <div class="back-btn" onclick="goBack()">← Назад</div>
+        <h1>О нас</h1>
+        <div class="feature-grid">
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>5 лет в экосистеме Telegram</h3>
+                <p>Создали первое коммерческое mini-app приложение в 2019 году</p>
+            </div>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>15+ экспертов</h3>
+                <p>Команда включает 3 тимлида, 8 разработчиков и 4 UX/UI дизайнера</p>
+            </div>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>98% удовлетворенности</h3>
+                <p>По результатам опроса клиентов за 2023 год</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Портфолио -->
+    <div id="portfolio" class="page">
+        <div class="back-btn" onclick="goBack()">← Назад</div>
+        <h1>Наши кейсы</h1>
+        <div class="feature-grid">
+            <div class="card" onclick="showModal('project1')">
+                <div class="media-placeholder"></div>
+                <h3>CryptoWallet Pro</h3>
+                <p>Мультивалютный кошелек с поддержкой NFT</p>
+                <ul>
+                    <li>50 000+ пользователей</li>
+                    <li>Интеграция с 8 блокчейнами</li>
+                </ul>
+            </div>
+            <div class="card" onclick="showModal('project2')">
+                <div class="media-placeholder"></div>
+                <h3>FoodDelivery Bot</h3>
+                <p>Автоматизация ресторанного бизнеса</p>
+                <ul>
+                    <li>300+ ресторанов-партнеров</li>
+                    <li>Средний чек вырос на 40%</li>
+                </ul>
+            </div>
+            <div class="card" onclick="showModal('project3')">
+                <div class="media-placeholder"></div>
+                <h3>ShopBot</h3>
+                <p>Telegram-витрина для интернет-магазинов</p>
+                <ul>
+                    <li>Интеграция с 10 CMS</li>
+                    <li>Увеличение конверсии на 65%</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Преимущества -->
     <div id="features" class="page">
         <div class="back-btn" onclick="goBack()">← Назад</div>
-        <h1>Наши возможности</h1>
+        <h1>Почему выбирают нас</h1>
         <div class="feature-grid">
-            <div class="card" onclick="animateCard(this)">
-                <div class="shape" style="border-radius: 20px;"></div>
-                <h3>Быстрая разработка</h3>
-                <p>Запуск приложения за 14 дней</p>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>Гибкая разработка</h3>
+                <p>Индивидуальные решения под любые бизнес-задачи</p>
             </div>
-            <div class="card" onclick="animateCard(this)">
-                <div class="shape" style="border-radius: 0;"></div>
-                <h3>Интеграции</h3>
-                <p>Платежи, API, Базы данных</p>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>Безопасность</h3>
+                <p>Шифрование данных и двухфакторная аутентификация</p>
+            </div>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>Аналитика</h3>
+                <p>Встроенные инструменты для отслеживания метрик</p>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно -->
-    <div id="portfolioModal" class="modal">
+    <!-- Процесс -->
+    <div id="process" class="page">
+        <div class="back-btn" onclick="goBack()">← Назад</div>
+        <h1>Как мы работаем</h1>
+        <div class="feature-grid">
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>1. Консультация</h3>
+                <p>Анализ бизнес-процессов и постановка целей</p>
+            </div>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>2. Прототип</h3>
+                <p>Создание интерактивного макета за 3 дня</p>
+            </div>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>3. Разработка</h3>
+                <p>Agile-методология с еженедельными демо</p>
+            </div>
+            <div class="card">
+                <div class="media-placeholder"></div>
+                <h3>4. Запуск</h3>
+                <p>Публикация в Telegram и первичная настройка</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="faq" class="page">
+        <div class="back-btn" onclick="goBack()">← Назад</div>
+        <h1>Частые вопросы</h1>
+        <div class="accordion">
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                Сколько стоит разработка?
+            </div>
+            <div class="accordion-content">
+                Стоимость начинается от $2999. Точная цена зависит от функционала и сроков.
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                Какие сроки разработки?
+            </div>
+            <div class="accordion-content">
+                Стандартный проект занимает 2-4 недели. Срочные проекты возможны за 7 дней.
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                Нужен ли дизайн от клиента?
+            </div>
+            <div class="accordion-content">
+                Нет, наша команда разработает уникальный дизайн с нуля.
+            </div>
+        </div>
+    </div>
+
+    <!-- Контакты -->
+    <div id="contact" class="page">
+        <div class="back-btn" onclick="goBack()">← Назад</div>
+        <h1>Свяжитесь с нами</h1>
+        <div class="card">
+            <div class="media-placeholder"></div>
+            <form id="contactForm">
+                <input type="text" placeholder="Ваше имя" class="input-field" required>
+                <input type="email" placeholder="Email" class="input-field" required>
+                <textarea placeholder="Опишите проект" class="input-field" rows="4" required></textarea>
+                <button type="submit" class="btn">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="project1" class="modal">
         <div class="modal-content">
-            <div class="shape" style="height: 300px; border-radius: 10px;"></div>
-            <h2>Пример приложения</h2>
-            <p>Криптокошелек с интеграцией блокчейна</p>
-            <button class="back-btn" onclick="hideModal()">Закрыть</button>
+            <div class="media-placeholder" style="height: 350px;"></div>
+            <h2>CryptoWallet Pro</h2>
+            <p>Мультивалютный кошелек с поддержкой:</p>
+            <ul>
+                <li>Bitcoin, Ethereum, Solana</li>
+                <li>NFT-коллекции</li>
+                <li>Децентрализованные обмены</li>
+                <li>Стейкинг криптовалют</li>
+            </ul>
+            <button class="btn" onclick="hideModal()">Закрыть</button>
         </div>
     </div>
 
-    <!-- Нижняя навигация -->
+    <div id="project2" class="modal">
+        <div class="modal-content">
+            <div class="media-placeholder" style="height: 350px;"></div>
+            <h2>FoodDelivery Bot</h2>
+            <p>Функции:</p>
+            <ul>
+                <li>Автоматический расчет стоимости доставки</li>
+                <li>Интеграция с картами Google</li>
+                <li>Система лояльности</li>
+                <li>Оплата через Telegram Pay</li>
+            </ul>
+            <button class="btn" onclick="hideModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="project3" class="modal">
+        <div class="modal-content">
+            <div class="media-placeholder" style="height: 350px;"></div>
+            <h2>ShopBot</h2>
+            <p>Возможности:</p>
+            <ul>
+                <li>Автоматическая синхронизация с сайтом</li>
+                <li>Уведомления о новых заказах</li>
+                <li>Система промокодов</li>
+                <li>Аналитика продаж</li>
+            </ul>
+            <button class="btn" onclick="hideModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Нижняя панель -->
     <div class="nav-bar">
         <div class="nav-item active" onclick="switchPage('home')">Главная</div>
-        <div class="nav-item" onclick="switchPage('features')">Функции</div>
-        <div class="nav-item" onclick="switchPage('pricing')">Цены</div>
+        <div class="nav-item" onclick="switchPage('features')">Преимущества</div>
+        <div class="nav-item" onclick="switchPage('process')">Процесс</div>
+        <div class="nav-item" onclick="switchPage('faq')">FAQ</div>
         <div class="nav-item" onclick="switchPage('contact')">Контакты</div>
     </div>
 
@@ -209,22 +437,35 @@
             }, 300);
         }
 
-        function animateCard(element) {
-            element.style.transform = 'scale(0.95)';
-            setTimeout(() => element.style.transform = 'scale(1)', 200);
-        }
-
-        function showModal() {
-            document.getElementById('portfolioModal').style.display = 'flex';
-            setTimeout(() => document.querySelector('.modal-content').style.transform = 'scale(1)', 50);
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.querySelector('.modal-content').style.transform = 'scale(1)';
+            }, 50);
         }
 
         function hideModal() {
-            document.querySelector('.modal-content').style.transform = 'scale(0.9)';
-            setTimeout(() => document.getElementById('portfolioModal').style.display = 'none', 300);
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.querySelector('.modal-content').style.transform = 'scale(0.95)';
+                setTimeout(() => modal.style.display = 'none', 300);
+            });
         }
 
-        // Свайп для мобильных
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const isActive = element.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+            
+            if(!isActive) {
+                element.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        }
+
+        // Свайпы для навигации
         let touchStartX = 0;
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
@@ -233,15 +474,20 @@
         document.addEventListener('touchend', (e) => {
             const touchEndX = e.changedTouches[0].screenX;
             if(touchEndX < touchStartX - 50) {
-                // Свайп влево
-                const nextPage = document.querySelector(`.nav-item.active + .nav-item`);
-                if(nextPage) nextPage.click();
+                const nextPage = document.querySelector(`.nav-item.active`).nextElementSibling;
+                if(nextPage && nextPage.classList.contains('nav-item')) nextPage.click();
             }
             if(touchEndX > touchStartX + 50) {
-                // Свайп вправо
                 const prevPage = document.querySelector(`.nav-item.active`).previousElementSibling;
-                if(prevPage) prevPage.click();
+                if(prevPage && prevPage.classList.contains('nav-item')) prevPage.click();
             }
+        });
+
+        // Обработка формы
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
         });
     </script>
 </body>
