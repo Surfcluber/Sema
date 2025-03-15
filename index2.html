@@ -1,235 +1,196 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Сёма — лучший дизайнер!</title>
-  <!-- Подключаем Telegram Web App API -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini Apps для вашего бизнеса</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2ecc71;
+            --gray: #ecf0f1;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+        }
+
+        .section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: grid;
+            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .shape {
+            background: var(--secondary);
+            border-radius: 15px;
+            height: 200px;
+            transition: transform 0.3s ease;
+        }
+
+        .shape:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #27ae60;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .price-card {
+            background: var(--gray);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .price-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<script>
-  // Создаем и добавляем стили через JavaScript
-  const style = document.createElement('style');
-  style.textContent = `
-    /* Общие стили */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #FF6B6B, #FFD93D);
-      overflow-x: hidden;
-      color: #333;
-      position: relative;
-      min-height: 100vh;
-    }
-    /* Шапка приложения */
-    .header {
-      text-align: center;
-      padding: 40px 20px;
-      background: rgba(255,255,255,0.8);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    .header h1 {
-      font-size: 3em;
-      margin: 0;
-      color: #D72638;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    .header p {
-      font-size: 1.5em;
-      margin-top: 10px;
-      color: #1B9C85;
-    }
-    /* Навигация */
-    .nav {
-      display: flex;
-      justify-content: center;
-      background: #FFFFFF;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin: 20px;
-      border-radius: 10px;
-    }
-    .nav button {
-      flex: 1;
-      padding: 15px;
-      background: transparent;
-      border: none;
-      font-size: 1.2em;
-      cursor: pointer;
-      transition: background 0.3s;
-      color: #D72638;
-    }
-    .nav button:hover {
-      background: #FFE66D;
-    }
-    /* Контейнер с контентом */
-    .content {
-      padding: 20px;
-      margin: 20px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 15px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Стили для галереи */
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .gallery-item {
-      flex: 1 1 calc(33% - 10px);
-      height: 200px;
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-    /* Футер */
-    .footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 20px;
-      color: #555;
-    }
-    /* Эффект «искр» */
-    .sparkle {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: sparkle 2s linear infinite;
-    }
-    @keyframes sparkle {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(2); opacity: 0.3; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-  `;
-  document.head.appendChild(style);
+    <header class="section" style="background: var(--primary); color: white;">
+        <div class="container">
+            <div style="text-align: center;">
+                <h1>Telegram Mini Apps<br>для вашего бизнеса</h1>
+                <p style="font-size: 1.2em;">Превратим вашу идею в популярное приложение за 2 недели</p>
+                <button class="btn" onclick="showContact()">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
 
-  // Создаем корневой контейнер приложения
-  const app = document.createElement('div');
-  app.id = 'app';
-  document.body.appendChild(app);
+    <section class="section" id="features">
+        <h2 style="text-align: center; color: var(--primary);">Наши преимущества</h2>
+        <div class="container">
+            <div class="card">
+                <div class="shape" style="border-radius: 50%;"></div>
+                <h3>Скорость разработки</h3>
+                <p>Запустите приложение за 2 недели благодаря готовым шаблонам и Agile-методологии</p>
+            </div>
+            <div class="card">
+                <div class="shape" style="border-radius: 0;"></div>
+                <h3>Интеграция с Telegram</h3>
+                <p>Полная совместимость с API Telegram и платежными системами</p>
+            </div>
+            <div class="card">
+                <div class="shape" style="border-radius: 25px;"></div>
+                <h3>Кросс-платформенность</h3>
+                <p>Работает на iOS, Android и в веб-версии Telegram</p>
+            </div>
+        </div>
+    </section>
 
-  // Функция создания шапки приложения
-  function createHeader() {
-    const header = document.createElement('div');
-    header.className = 'header';
-    header.innerHTML = '<h1>Сёма — лучший дизайнер!</h1><p>Его работы — это чистое искусство. Просто ВАУ!</p>';
-    return header;
-  }
+    <section class="section" id="portfolio" style="background: var(--gray);">
+        <h2 style="text-align: center; color: var(--primary);">Портфолио</h2>
+        <div class="container">
+            <div class="card">
+                <div class="shape" style="height: 150px;"></div>
+                <h3>Магазин криптовалюты</h3>
+                <p>Интеграция с блокчейн-кошельками и торговля токенами</p>
+            </div>
+            <div class="card">
+                <div class="shape" style="height: 150px; border-radius: 20px;"></div>
+                <h3>Сервис доставки еды</h3>
+                <p>Онлайн-заказы с геолокацией и оплатой через Telegram Pay</p>
+            </div>
+        </div>
+    </section>
 
-  // Функция создания навигационного меню
-  function createNav() {
-    const nav = document.createElement('div');
-    nav.className = 'nav';
-    const sections = {
-      home: 'Главная',
-      portfolio: 'Портфолио',
-      awards: 'Награды',
-      testimonials: 'Отзывы',
-      about: 'О Сёме'
-    };
-    for (const key in sections) {
-      const btn = document.createElement('button');
-      btn.textContent = sections[key];
-      btn.onclick = () => renderSection(key);
-      nav.appendChild(btn);
-    }
-    return nav;
-  }
+    <section class="section" id="pricing">
+        <h2 style="text-align: center; color: var(--primary);">Тарифы</h2>
+        <div class="container">
+            <div class="price-card">
+                <div class="price-header">
+                    <h3>Стартап</h3>
+                    <p>от $2999</p>
+                </div>
+                <ul style="list-style: none; padding: 20px;">
+                    <li>Базовый функционал</li>
+                    <li>Интеграция платежей</li>
+                    <li>1 месяц поддержки</li>
+                </ul>
+                <button class="btn">Выбрать</button>
+            </div>
+            <div class="price-card">
+                <div class="price-header">
+                    <h3>Бизнес</h3>
+                    <p>от $5999</p>
+                </div>
+                <ul style="list-style: none; padding: 20px;">
+                    <li>Кастомный дизайн</li>
+                    <li>API-интеграции</li>
+                    <li>6 месяцев поддержки</li>
+                </ul>
+                <button class="btn">Выбрать</button>
+            </div>
+        </div>
+    </section>
 
-  // Функция создания основного контейнера для контента
-  function createContent() {
-    const content = document.createElement('div');
-    content.className = 'content';
-    return content;
-  }
+    <section class="section" id="contact">
+        <h2 style="text-align: center; color: var(--primary);">Свяжитесь с нами</h2>
+        <form class="container" style="max-width: 600px; margin: 0 auto;">
+            <input type="text" placeholder="Ваше имя" class="card" style="padding: 15px; border: none;">
+            <input type="email" placeholder="Email" class="card" style="padding: 15px; border: none;">
+            <textarea placeholder="Опишите ваш проект" class="card" style="padding: 15px; border: none; height: 150px;"></textarea>
+            <button type="submit" class="btn">Отправить</button>
+        </form>
+    </section>
 
-  // Функция для генерации галереи портфолио
-  function generateGallery() {
-    let gallery = '<div class="gallery">';
-    for (let i = 0; i < 6; i++) {
-      gallery += `<div class="gallery-item" style="background-image: url('https://picsum.photos/seed/${i+100}/300/200');"></div>`;
-    }
-    gallery += '</div>';
-    return gallery;
-  }
+    <footer style="background: var(--primary); color: white; padding: 20px; text-align: center;">
+        <p>© 2024 Telegram Apps Development</p>
+    </footer>
 
-  // Функция отображения раздела по выбору пользователя
-  function renderSection(section) {
-    let html = '';
-    switch(section) {
-      case 'home':
-        html = `<h2>Добро пожаловать!</h2>
-                <p>Сёма — самый лучший дизайнер на свете! Его креатив, стиль и мощные идеи вдохновляют всех.</p>`;
-        break;
-      case 'portfolio':
-        html = `<h2>Портфолио</h2>
-                <p>Ниже представлены работы, которые подтверждают, что Сёма — творческий гений:</p>
-                ${generateGallery()}`;
-        break;
-      case 'awards':
-        html = `<h2>Награды</h2>
-                <p>Сёма получил множество наград за свои яркие и эффектные проекты. Его достижения — это пример для подражания!</p>`;
-        break;
-      case 'testimonials':
-        html = `<h2>Отзывы</h2>
-                <p>Клиенты и коллеги подтверждают: дизайн Сёмы — это магия, творящая чудеса!</p>`;
-        break;
-      case 'about':
-        html = `<h2>О Сёме</h2>
-                <p>Сёма — дизайнер, который воплощает мечты в реальность. Его работы — это взрыв креатива, мощь эмоций и чистое вдохновение.</p>`;
-        break;
-      default:
-        html = `<h2>Добро пожаловать!</h2>`;
-    }
-    content.innerHTML = html;
-  }
+    <script>
+        function showContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
 
-  // Создаем основной UI
-  const header = createHeader();
-  const nav = createNav();
-  const content = createContent();
-  app.appendChild(header);
-  app.appendChild(nav);
-  app.appendChild(content);
-
-  // Изначально отображаем главную страницу
-  renderSection('home');
-
-  // Функция создания эффекта "искр" по экрану
-  function createSparkle() {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.top = Math.random() * window.innerHeight + 'px';
-    sparkle.style.left = Math.random() * window.innerWidth + 'px';
-    document.body.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 2000);
-  }
-  // Запускаем генерацию "искр" каждые 300 мс
-  setInterval(createSparkle, 300);
-
-  // Добавляем футер с подписью
-  const footer = document.createElement('div');
-  footer.className = 'footer';
-  footer.innerHTML = '<p>&copy; 2025 Сёма — лучший дизайнер. Просто ВАУ!</p>';
-  app.appendChild(footer);
-
-  // Интеграция с Telegram Web App API: расширяем интерфейс, если доступно
-  if (window.Telegram && Telegram.WebApp) {
-    Telegram.WebApp.expand();
-  }
-</script>
+        // Пример динамического контента
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                alert('Чтобы узнать больше, оставьте заявку!');
+            });
+        });
+    </script>
 </body>
 </html>
