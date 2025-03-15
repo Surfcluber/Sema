@@ -3,193 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Mini Apps для вашего бизнеса</title>
+    <title>Telegram Business Apps</title>
     <style>
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
             --accent: #2ecc71;
             --gray: #ecf0f1;
+            --duration: 0.3s;
         }
 
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Telegram Sans', Arial, sans-serif;
             line-height: 1.6;
             color: var(--primary);
+            overflow-x: hidden;
         }
 
-        .section {
-            padding: 60px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+        .page {
+            display: none;
+            padding: 20px;
+            position: absolute;
+            width: 100%;
+            transition: transform var(--duration) ease;
         }
 
-        .container {
+        .page.active {
+            display: block;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             display: grid;
-            gap: 40px;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
+            padding: 10px 0;
         }
 
-        .shape {
-            background: var(--secondary);
-            border-radius: 15px;
-            height: 200px;
-            transition: transform 0.3s ease;
-        }
-
-        .shape:hover {
-            transform: translateY(-5px);
-        }
-
-        .btn {
-            background: var(--accent);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
+        .nav-item {
+            text-align: center;
+            padding: 10px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: color var(--duration);
         }
 
-        .btn:hover {
-            background: #27ae60;
+        .nav-item.active {
+            color: var(--accent);
         }
 
         .card {
             background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform var(--duration);
         }
 
         .card:hover {
             transform: translateY(-5px);
         }
 
-        .price-card {
-            background: var(--gray);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
+        .shape {
+            background: var(--secondary);
+            border-radius: 15px;
+            height: 150px;
+            margin-bottom: 15px;
+            position: relative;
         }
 
-        .price-header {
-            background: var(--primary);
+        .back-btn {
+            background: var(--accent);
             color: white;
-            padding: 20px;
-            border-radius: 8px 8px 0 0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: background var(--duration);
         }
 
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
+        .back-btn:hover {
+            background: #27ae60;
+        }
+
+        .feature-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            animation: scaleUp var(--duration) ease;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .nav-bar {
+                font-size: 0.9em;
             }
         }
     </style>
 </head>
 <body>
-    <header class="section" style="background: var(--primary); color: white;">
-        <div class="container">
-            <div style="text-align: center;">
-                <h1>Telegram Mini Apps<br>для вашего бизнеса</h1>
-                <p style="font-size: 1.2em;">Превратим вашу идею в популярное приложение за 2 недели</p>
-                <button class="btn" onclick="showContact()">Оставить заявку</button>
-            </div>
+    <!-- Главная страница -->
+    <div id="home" class="page active">
+        <div class="card" onclick="navigate('features')">
+            <div class="shape" style="border-radius: 50%; height: 200px;"></div>
+            <h2>Начать проект</h2>
+            <p>Создайте свое приложение за 3 простых шага</p>
         </div>
-    </header>
+        
+        <div class="card" onclick="showModal()">
+            <div class="shape" style="height: 150px;"></div>
+            <h2>Портфолио</h2>
+            <p>Примеры наших работ</p>
+        </div>
+    </div>
 
-    <section class="section" id="features">
-        <h2 style="text-align: center; color: var(--primary);">Наши преимущества</h2>
-        <div class="container">
-            <div class="card">
-                <div class="shape" style="border-radius: 50%;"></div>
-                <h3>Скорость разработки</h3>
-                <p>Запустите приложение за 2 недели благодаря готовым шаблонам и Agile-методологии</p>
+    <!-- Страница функций -->
+    <div id="features" class="page">
+        <div class="back-btn" onclick="goBack()">← Назад</div>
+        <h1>Наши возможности</h1>
+        <div class="feature-grid">
+            <div class="card" onclick="animateCard(this)">
+                <div class="shape" style="border-radius: 20px;"></div>
+                <h3>Быстрая разработка</h3>
+                <p>Запуск приложения за 14 дней</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="animateCard(this)">
                 <div class="shape" style="border-radius: 0;"></div>
-                <h3>Интеграция с Telegram</h3>
-                <p>Полная совместимость с API Telegram и платежными системами</p>
-            </div>
-            <div class="card">
-                <div class="shape" style="border-radius: 25px;"></div>
-                <h3>Кросс-платформенность</h3>
-                <p>Работает на iOS, Android и в веб-версии Telegram</p>
+                <h3>Интеграции</h3>
+                <p>Платежи, API, Базы данных</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="section" id="portfolio" style="background: var(--gray);">
-        <h2 style="text-align: center; color: var(--primary);">Портфолио</h2>
-        <div class="container">
-            <div class="card">
-                <div class="shape" style="height: 150px;"></div>
-                <h3>Магазин криптовалюты</h3>
-                <p>Интеграция с блокчейн-кошельками и торговля токенами</p>
-            </div>
-            <div class="card">
-                <div class="shape" style="height: 150px; border-radius: 20px;"></div>
-                <h3>Сервис доставки еды</h3>
-                <p>Онлайн-заказы с геолокацией и оплатой через Telegram Pay</p>
-            </div>
+    <!-- Модальное окно -->
+    <div id="portfolioModal" class="modal">
+        <div class="modal-content">
+            <div class="shape" style="height: 300px; border-radius: 10px;"></div>
+            <h2>Пример приложения</h2>
+            <p>Криптокошелек с интеграцией блокчейна</p>
+            <button class="back-btn" onclick="hideModal()">Закрыть</button>
         </div>
-    </section>
+    </div>
 
-    <section class="section" id="pricing">
-        <h2 style="text-align: center; color: var(--primary);">Тарифы</h2>
-        <div class="container">
-            <div class="price-card">
-                <div class="price-header">
-                    <h3>Стартап</h3>
-                    <p>от $2999</p>
-                </div>
-                <ul style="list-style: none; padding: 20px;">
-                    <li>Базовый функционал</li>
-                    <li>Интеграция платежей</li>
-                    <li>1 месяц поддержки</li>
-                </ul>
-                <button class="btn">Выбрать</button>
-            </div>
-            <div class="price-card">
-                <div class="price-header">
-                    <h3>Бизнес</h3>
-                    <p>от $5999</p>
-                </div>
-                <ul style="list-style: none; padding: 20px;">
-                    <li>Кастомный дизайн</li>
-                    <li>API-интеграции</li>
-                    <li>6 месяцев поддержки</li>
-                </ul>
-                <button class="btn">Выбрать</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="contact">
-        <h2 style="text-align: center; color: var(--primary);">Свяжитесь с нами</h2>
-        <form class="container" style="max-width: 600px; margin: 0 auto;">
-            <input type="text" placeholder="Ваше имя" class="card" style="padding: 15px; border: none;">
-            <input type="email" placeholder="Email" class="card" style="padding: 15px; border: none;">
-            <textarea placeholder="Опишите ваш проект" class="card" style="padding: 15px; border: none; height: 150px;"></textarea>
-            <button type="submit" class="btn">Отправить</button>
-        </form>
-    </section>
-
-    <footer style="background: var(--primary); color: white; padding: 20px; text-align: center;">
-        <p>© 2024 Telegram Apps Development</p>
-    </footer>
+    <!-- Нижняя навигация -->
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="switchPage('home')">Главная</div>
+        <div class="nav-item" onclick="switchPage('features')">Функции</div>
+        <div class="nav-item" onclick="switchPage('pricing')">Цены</div>
+        <div class="nav-item" onclick="switchPage('contact')">Контакты</div>
+    </div>
 
     <script>
-        function showContact() {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        let currentPage = 'home';
+        const pages = document.querySelectorAll('.page');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        function switchPage(pageId) {
+            pages.forEach(page => {
+                if(page.id === pageId) {
+                    page.style.display = 'block';
+                    setTimeout(() => page.classList.add('active'), 10);
+                } else {
+                    page.classList.remove('active');
+                    setTimeout(() => page.style.display = 'none', 300);
+                }
+            });
+            
+            navItems.forEach(item => item.classList.remove('active'));
+            document.querySelector(`[onclick="switchPage('${pageId}')"]`).classList.add('active');
+            currentPage = pageId;
         }
 
-        // Пример динамического контента
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                alert('Чтобы узнать больше, оставьте заявку!');
-            });
+        function navigate(pageId) {
+            document.getElementById(currentPage).classList.add('slide-out');
+            setTimeout(() => {
+                switchPage(pageId);
+                document.getElementById(currentPage).classList.remove('slide-out');
+            }, 300);
+        }
+
+        function animateCard(element) {
+            element.style.transform = 'scale(0.95)';
+            setTimeout(() => element.style.transform = 'scale(1)', 200);
+        }
+
+        function showModal() {
+            document.getElementById('portfolioModal').style.display = 'flex';
+            setTimeout(() => document.querySelector('.modal-content').style.transform = 'scale(1)', 50);
+        }
+
+        function hideModal() {
+            document.querySelector('.modal-content').style.transform = 'scale(0.9)';
+            setTimeout(() => document.getElementById('portfolioModal').style.display = 'none', 300);
+        }
+
+        // Свайп для мобильных
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            if(touchEndX < touchStartX - 50) {
+                // Свайп влево
+                const nextPage = document.querySelector(`.nav-item.active + .nav-item`);
+                if(nextPage) nextPage.click();
+            }
+            if(touchEndX > touchStartX + 50) {
+                // Свайп вправо
+                const prevPage = document.querySelector(`.nav-item.active`).previousElementSibling;
+                if(prevPage) prevPage.click();
+            }
         });
     </script>
 </body>
